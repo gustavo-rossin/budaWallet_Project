@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { userWallet } from '../redux/actions';
+import { addEmail } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -33,7 +33,7 @@ class Login extends React.Component {
   afterLogin = () => {
     const { userEmail } = this.state;
     const { history, dispatch } = this.props;
-    dispatch(userWallet({ userEmail }));
+    dispatch(addEmail(userEmail));
     history.push('/carteira');
   };
 

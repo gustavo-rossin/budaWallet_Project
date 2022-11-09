@@ -5,16 +5,16 @@ const INITIAL_STATE = {
   email: '',
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const user = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case VALID_EMAIL:
     return {
       ...state,
-      email: action.type,
+      email: action.payload,
     };
   default:
     return state;
   }
 };
 
-export default userReducer;
+export default user;

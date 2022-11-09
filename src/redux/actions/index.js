@@ -2,7 +2,7 @@
 
 export const VALID_EMAIL = 'VALID_EMAIL';
 
-export function userWallet(payload) {
+export function addEmail(payload) {
   return ({
     type: VALID_EMAIL,
     payload,
