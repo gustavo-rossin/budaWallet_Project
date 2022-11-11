@@ -1,4 +1,6 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
+import { CURRENCY_ERROR, CURRENCY_SUCCESS, VALID_CURRENCY } from '../actions';
+
 const INITIAL_STATE = {
   wallet: {
     currencies: [], // array de string
@@ -10,6 +12,21 @@ const INITIAL_STATE = {
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case VALID_CURRENCY:
+    return {
+      ...state,
+      currencies: action.payload,
+    };
+  case CURRENCY_ERROR:
+    return {
+      ...state,
+      error: action.error,
+    };
+  case CURRENCY_SUCCESS:
+    return {
+      ...state,
+      success: action.success,
+    };
   default:
     return state;
   }
