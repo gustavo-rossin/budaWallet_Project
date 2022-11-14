@@ -1,3 +1,5 @@
+import currenciesAPI from '../../services/currenciesAPI';
+
 // Coloque aqui suas actions
 
 export const VALID_EMAIL = 'VALID_EMAIL';
@@ -12,9 +14,8 @@ export function addEmail(payload) {
   });
 }
 
-export const getCurrencies = (payload) => ({
+export const getCurrencies = () => ({
   type: VALID_CURRENCY,
-  payload,
 });
 
 export const currenciesError = (error) => ({
@@ -22,19 +23,18 @@ export const currenciesError = (error) => ({
   error,
 });
 
-export const currenciesSuccess = (success) => ({
+export const currenciesSuccess = (payload) => ({
   type: CURRENCY_SUCCESS,
-  successCurrency: Object.keys(success).filter((el) => el !== 'USDT'),
+  payload,
 });
 
 export function fetchCurrenciesAPI() {
   return async (dispatch) => {
-    dispatch(getCurrencies());
+    dispatch(getCurrencies);
     try {
-      const url = 'https://economia.awesomeapi.com.br/json/all';
-      const request = await fetch(url);
-      const response = await request.json();
-      dispatch(currenciesSuccess(response));
+      const response = await currenciesAPI();
+      console.log(response);
+      dispatch(currenciesSuccess(Object.keys(response).filter((el) => el !== 'USDT')));
     } catch (error) {
       dispatch(currenciesError(error));
     }

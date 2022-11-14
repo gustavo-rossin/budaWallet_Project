@@ -15,6 +15,10 @@ const wallet = (state = INITIAL_STATE, action) => {
   case VALID_CURRENCY:
     return {
       ...state,
+    };
+  case CURRENCY_SUCCESS:
+    return {
+      ...state,
       currencies: action.payload,
     };
   case CURRENCY_ERROR:
@@ -22,11 +26,7 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       error: action.error,
     };
-  case CURRENCY_SUCCESS:
-    return {
-      ...state,
-      success: action.success,
-    };
+
   default:
     return state;
   }
