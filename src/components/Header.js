@@ -1,33 +1,43 @@
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-class Wallet extends React.Component {
+class Header extends React.Component {
   state = {
-    totalExpended: 0,
     currency: 'BRL',
   };
 
   render() {
-    const { totalExpended, currency } = this.state;
-    const { email } = this.props;
+    const { currency } = this.state;
+    const { email, expenses } = this.props;
+
+    const totalExpended = expenses.reduce((a, c) => {
+      const sum = a
+      + (Number(c.value) * Number(c).toFixed(2));
+      return sum;
+    }, 0);
+
     return (
       <header>
-        <h4>TrybeWallet</h4>
-        <p data-testid="email-field">{email}</p>
-        <p data-testid="total-field">{totalExpended}</p>
-        <p data-testid="header-currency-field">{currency}</p>
+        <h1>TrybeWallet</h1>
+        <h5 data-testid="email-field">{email}</h5>
+        <h3>Total Gasto:</h3>
+        <h3 data-testid="total-field">{totalExpended}</h3>
+        <p>Moeda Corrente:</p>
+        <h4 data-testid="header-currency-field">{currency}</h4>
       </header>
     );
   }
 }
 
-Wallet.propTypes = {
-  email: propTypes.string.isRequired,
+Header.propTypes = {
+  email: PropTypes.string.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
 };
 
 const mapStateToProps = (globalState) => ({
   email: globalState.user.email,
+  expenses: globalState.wallet.expenses,
 });
 
-export default connect(mapStateToProps)(Wallet);
+export default connect(mapStateToProps)(Header);
