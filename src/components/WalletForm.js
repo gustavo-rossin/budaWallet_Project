@@ -130,7 +130,6 @@ class WalletForm extends React.Component {
 
 const mapStateToProps = (globalState) => ({
   currencies: globalState.wallet.currencies,
-  expenses: globalState.wallet.expenses,
 });
 
 WalletForm.propTypes = {

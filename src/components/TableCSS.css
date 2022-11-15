@@ -1,0 +1,16 @@
+.table-exchange {
+  border: 1px solid;
+  border-collapse: separate;
+  margin-top: 40px;
+  text-align: center;
+
+}
+
+td {
+  padding: 15px;
+}
+
+table , th , td {
+  border: 1px solid;
+}
+
