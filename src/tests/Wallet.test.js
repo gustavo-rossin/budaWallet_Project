@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import App from '../App';
-import user from '../redux/reducers/user';
+// import user from '../redux/reducers/user';
 import { renderWithRouterAndRedux } from './helpers/renderWith';
 
 const email = 'teste@teste.com';
@@ -49,7 +49,7 @@ describe('Testes na página de Wallet', () => {
     expect(despesaLabel).toBeInTheDocument();
   });
 
-  it('2) Como estão as informações no Header antes de inputar os valores.', () => {
+  it('2) Como estão as informações no Header antes de inputar os valores', () => {
     renderWithRouterAndRedux(<App />);
     const headingh1 = screen.getByRole('heading', { name: /TrybeWallet/i, level: 1 });
     expect(headingh1).toBeDefined();
