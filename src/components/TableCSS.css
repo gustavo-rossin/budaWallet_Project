@@ -14,3 +14,7 @@ table , th , td {
   border: 1px solid;
 }
 
+.table-btn {
+  display: flex;
+  flex-direction: row;
+}

@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { removeExpenses } from '../redux/actions';
 import './TableCSS.css';
 
 class Table extends Component {
+  handleDelete = ({ target }) => {
+  };
+
   render() {
     const { expenses } = this.props;
     // console.log('table1:', expenses);
@@ -37,7 +41,22 @@ class Table extends Component {
               * Number(el.exchangeRates[el.currency].ask)).toFixed(2)}
               </td>
               <td>Real</td>
-              <td>Editar/Excluir</td>
+              <td>
+                <span className="table-btn">
+                  <button
+                    type="button"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="delete-btn"
+                    onClick={ this.handleDelete }
+                  >
+                    Deletar
+                  </button>
+                </span>
+              </td>
             </tr>
           ))}
         </tbody>
