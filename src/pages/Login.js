@@ -41,6 +41,7 @@ class Login extends React.Component {
     const { btnDisable, userEmail, userPassword } = this.state;
     return (
       <form>
+        <p>Email:</p>
         <input
           type="email"
           data-testid="email-input"
@@ -49,6 +50,7 @@ class Login extends React.Component {
           name="userEmail"
           placeholder="Digite seu e-mail"
         />
+        <p>Senha:</p>
         <input
           type="password"
           data-testid="password-input"
@@ -57,13 +59,16 @@ class Login extends React.Component {
           name="userPassword"
           placeholder="Digite sua senha"
         />
-        <button
-          type="button"
-          disabled={ btnDisable }
-          onClick={ this.afterLogin }
-        >
-          Entrar
-        </button>
+        <div>
+          <br />
+          <button
+            type="button"
+            disabled={ btnDisable }
+            onClick={ this.afterLogin }
+          >
+            Entrar
+          </button>
+        </div>
       </form>
     );
   }
