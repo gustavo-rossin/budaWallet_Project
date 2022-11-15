@@ -3,19 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class Header extends React.Component {
-  state = {
-    currency: 'BRL',
-  };
-
   render() {
-    const { currency } = this.state;
     const { email, expenses } = this.props;
-
     const totalExpended = expenses.reduce((a, c) => {
       const sum = a
-      + (Number(c.value) * Number(c).toFixed(2));
+      + (Number(c.value) * Number(c.exchangeRates[c.currency].ask));
       return sum;
-    }, 0);
+    }, 0).toFixed(2);
 
     return (
       <header>
@@ -24,7 +18,7 @@ class Header extends React.Component {
         <h3>Total Gasto:</h3>
         <h3 data-testid="total-field">{totalExpended}</h3>
         <p>Moeda Corrente:</p>
-        <h4 data-testid="header-currency-field">{currency}</h4>
+        <h4 data-testid="header-currency-field">BRL</h4>
       </header>
     );
   }

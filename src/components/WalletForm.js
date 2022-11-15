@@ -1,46 +1,79 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { addingExpenses } from '../redux/actions';
+import currenciesAPI from '../services/currenciesAPI';
 
 class WalletForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      id: 0,
+      value: 0,
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+      exchangeRates: {},
+    };
+  }
+
   handleChanges = ({ target: { name, value } }) => {
     this.setState({ [name]: value });
   };
 
+  handleClick = () => {
+    this.setState((prevState) => ({
+      id: prevState.id + 1,
+    }));
+  };
+
+  addCostBtn = async () => {
+    const { dispatch } = this.props;
+    const api = await currenciesAPI();
+    delete await api.USDT;
+    this.setState({ exchangeRates: api }, () => {
+      dispatch(addingExpenses(this.state));
+      this.setState({ value: '', description: '' }, this.handleClick);
+    });
+  };
+
   render() {
     const { currencies } = this.props;
-    console.log(currencies);
+    const { value, description, currency, method, tag } = this.state;
     return (
       <form>
-        <label htmlFor="valor">
+        <label htmlFor="value">
           Valor:
           <input
-            name="valor"
+            name="value"
             id="valor"
             data-testid="value-input"
-            placeholder="Valor dos seus gastos aqui"
+            value={ value }
             onChange={ this.handleChanges }
           />
         </label>
         <br />
-        <label htmlFor="descricao">
+        <label htmlFor="description">
           Descrição:
           <input
-            name="descricao"
+            name="description"
             id="descricao"
             data-testid="description-input"
             placeholder="Descrição do seu gasto"
+            value={ description }
             onChange={ this.handleChanges }
           />
         </label>
         <br />
-        <label htmlFor="moeda">
+        <label htmlFor="currency">
           Moeda:
           <select
-            name="moeda"
-            id="moeda"
+            name="currency"
+            id="currency"
             data-testid="currency-input"
-            placeholder="Moeda a utilizar"
+            value={ currency }
+            onChange={ this.handleChanges }
           >
             {currencies
               .map((el) => (
@@ -51,13 +84,13 @@ class WalletForm extends React.Component {
           </select>
         </label>
         <br />
-        <label htmlFor="metodo">
+        <label htmlFor="method">
           Método de pagamento:
           <select
-            name="metodo"
+            name="method"
             id="metodo"
             data-testid="method-input"
-            placeholder="Método de pagamento"
+            value={ method }
             onChange={ this.handleChanges }
           >
             <option value="Dinheiro">Dinheiro</option>
@@ -66,13 +99,14 @@ class WalletForm extends React.Component {
           </select>
         </label>
         <br />
-        <label htmlFor="categoria">
+        <label htmlFor="tag">
           Categoria:
           <select
-            name="categoria"
+            name="tag"
             id="categoria"
             data-testid="tag-input"
             placeholder="Qual o tipo de gasto?"
+            value={ tag }
             onChange={ this.handleChanges }
           >
             <option value="Alimentação">Alimentação</option>
@@ -85,7 +119,7 @@ class WalletForm extends React.Component {
         <br />
         <button
           type="button"
-        // onClick={}
+          onClick={ this.addCostBtn }
         >
           Adicionar despesa
         </button>
@@ -96,10 +130,12 @@ class WalletForm extends React.Component {
 
 const mapStateToProps = (globalState) => ({
   currencies: globalState.wallet.currencies,
+  expenses: globalState.wallet.expenses,
 });
 
 WalletForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps)(WalletForm);

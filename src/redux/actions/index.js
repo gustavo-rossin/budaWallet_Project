@@ -6,6 +6,7 @@ export const VALID_EMAIL = 'VALID_EMAIL';
 export const VALID_CURRENCY = 'VALID_CURRENCY';
 export const CURRENCY_ERROR = 'CURRENCY_ERROR';
 export const CURRENCY_SUCCESS = 'CURRENCY_SUCCESS';
+export const ADDING_EXPENSES = 'ADDING_EXPENSES';
 
 export function addEmail(payload) {
   return ({
@@ -28,15 +29,33 @@ export const currenciesSuccess = (payload) => ({
   payload,
 });
 
+export const addingExpenses = (payload) => ({
+  type: ADDING_EXPENSES,
+  payload,
+});
+
 export function fetchCurrenciesAPI() {
   return async (dispatch) => {
     dispatch(getCurrencies);
     try {
-      const response = await currenciesAPI();
-      console.log(response);
-      dispatch(currenciesSuccess(Object.keys(response).filter((el) => el !== 'USDT')));
+      const result = await currenciesAPI();
+      console.log(result);
+      dispatch(currenciesSuccess(Object.keys(result).filter((el) => el !== 'USDT')));
     } catch (error) {
       dispatch(currenciesError(error));
+    }
+  };
+}
+
+export function fetchExpensesAPI(gastos) {
+  return async (dispatch) => {
+    try {
+      const result = await currenciesAPI();
+      dispatch(addingExpenses({
+        ...gastos,
+        exchangeRates: result }));
+    } catch (error) {
+      throw new Error(error);
     }
   };
 }
