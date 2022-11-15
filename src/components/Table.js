@@ -5,7 +5,11 @@ import { removeExpenses } from '../redux/actions';
 import './TableCSS.css';
 
 class Table extends Component {
-  handleDelete = ({ target }) => {
+  handleDelete = ({ target: { id } }) => {
+    const { dispatch, expenses } = this.props;
+    console.log('name1', id);
+    const deleteCost = expenses.filter((el) => el.id !== Number(id));
+    dispatch(removeExpenses(deleteCost));
   };
 
   render() {
@@ -50,6 +54,7 @@ class Table extends Component {
                   </button>
                   <button
                     type="button"
+                    id={ el.id }
                     data-testid="delete-btn"
                     onClick={ this.handleDelete }
                   >
@@ -67,6 +72,7 @@ class Table extends Component {
 
 Table.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (globalState) => ({
